@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/cdi-jpa" />
+            <option value="$PROJECT_DIR$/cdi-jpa-rest" />
+            <option value="$PROJECT_DIR$/cdi01" />
+            <option value="$PROJECT_DIR$/jpa01" />
+            <option value="$PROJECT_DIR$/proyecto01" />
+            <option value="$PROJECT_DIR$/proyecto02" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
