@@ -1,5 +1,8 @@
 plugins {
     id("java")
+    id("application")
+    id("io.freefair.lombok") version "8.4"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "org.example"
@@ -24,6 +27,19 @@ tasks.test {
 
 sourceSets {
     main {
-        output.setResourcesDir( file("${buildDir}/classes/java/main") )
+        output.setResourcesDir(file("${buildDir}/classes/java/main"))
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+                mapOf("Main-Class" to "com.distribuida.Principal",
+                        "Class-Path" to configurations.runtimeClasspath
+                                .get()
+                                .joinToString(separator = " ") { file ->
+                                    "${file.name}"
+                                })
+        )
     }
 }

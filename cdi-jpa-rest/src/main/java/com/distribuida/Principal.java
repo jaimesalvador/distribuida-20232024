@@ -41,6 +41,7 @@ public class Principal {
     }
 
     public static void main(String[] args) {
+
         container = SeContainerInitializer
                 .newInstance()
                 .initialize();
@@ -49,24 +50,6 @@ public class Principal {
                 .get();
 
         port(8080);
-
-//        //--
-//        Persona p = new Persona();
-//        p.setId(1);
-//        p.setNombre("nombre1");
-//        p.setDireccion("direccion1");
-//        p.setEdad(1);
-//
-//        servicio.insert( p );
-//
-//        p = new Persona();
-//        p.setId(2);
-//        p.setNombre("nombre2");
-//        p.setDireccion("direccion2");
-//        p.setEdad(2);
-//
-//        servicio.insert( p );
-//        //--
 
         //get("/hello", (req, res) -> "Hello World");
 
