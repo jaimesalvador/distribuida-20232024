@@ -40,6 +40,25 @@ public class Principal {
         return persona;
     }
 
+    static Object eliminarPersona(Request req, Response res) {
+        var servicio = container.select(ServicioPersona.class)
+                .get();
+        res.type("application/json");
+
+        String _id = req.params(":id");
+
+        var persona =  servicio.findById(Integer.valueOf(_id));
+
+        if(persona==null) {
+            // 404
+            halt(404, "Persona no encontrada");
+        }
+
+        servicio.remove(Integer.valueOf(_id));
+
+        return "Objeto eliminado";
+    }
+
     public static void main(String[] args) {
 
         container = SeContainerInitializer
@@ -56,5 +75,6 @@ public class Principal {
         Gson gson = new Gson();
         get("/personas", Principal::listarPersonas, gson::toJson);
         get("/personas/:id", Principal::buscarPersona, gson::toJson);
+        delete("/personas/:id", Principal::eliminarPersona, gson::toJson);
     }
 }

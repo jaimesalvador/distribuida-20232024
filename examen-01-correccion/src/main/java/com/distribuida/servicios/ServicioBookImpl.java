@@ -1,6 +1,6 @@
 package com.distribuida.servicios;
 
-import com.distribuida.db.Persona;
+import com.distribuida.db.Book;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -8,18 +8,38 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 @ApplicationScoped
-public class ServicioPersonaImpl implements ServicioPersona {
+public class ServicioBookImpl implements ServicioBook {
     @Inject
     EntityManager em;
 
     @Override
-    public List<Persona> findAll() {
-        return em.createQuery("select o from Persona o")
+    public List<Book> findAll() {
+        return em.createQuery("select o from Book o")
                 .getResultList();
     }
 
-    public Persona findById(Integer id) {
-        return em.find(Persona.class, id);
+    @Override
+    public Book findById(Integer id) {
+        return em.find(Book.class, id);
+    }
+
+    @Override
+    public void insert(Book obj) {
+        var tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            em.persist(obj);
+            tx.commit();
+        }
+        catch(Exception ex) {
+            tx.rollback();
+        }
+    }
+
+    @Override
+    public void update(Book obj) {
+
     }
 
     @Override
@@ -28,21 +48,8 @@ public class ServicioPersonaImpl implements ServicioPersona {
 
         try {
             tx.begin();
-            var obj = em.getReference(Persona.class, id);
+            var obj = em.getReference(Book.class, id);
             em.remove(obj);
-            tx.commit();
-        }
-        catch(Exception ex) {
-            tx.rollback();
-        }
-    }
-
-    public void insert(Persona obj) {
-        var tx = em.getTransaction();
-
-        try {
-            tx.begin();
-            em.persist(obj);
             tx.commit();
         }
         catch(Exception ex) {
