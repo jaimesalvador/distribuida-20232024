@@ -13,6 +13,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    private String isbn;
     private String title;
     private String author;
     private BigDecimal price;

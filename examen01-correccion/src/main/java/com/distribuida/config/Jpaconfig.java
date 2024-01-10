@@ -13,11 +13,13 @@ public class Jpaconfig {
 
     @PostConstruct
     public void init() {
+        System.out.println("***init");
         emf = Persistence.createEntityManagerFactory("pu-distribuida");
     }
 
     @Produces
     public EntityManager em() {
+        System.out.println("***em");
         return emf.createEntityManager();
     }
 }

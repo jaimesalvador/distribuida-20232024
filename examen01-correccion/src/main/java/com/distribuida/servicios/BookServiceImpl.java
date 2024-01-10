@@ -8,13 +8,12 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 @ApplicationScoped
-public class ServicioBookImpl implements ServicioBook {
-    @Inject
-    EntityManager em;
+public class BookServiceImpl implements BookService {
+    @Inject EntityManager em;
 
     @Override
     public List<Book> findAll() {
-        return em.createQuery("select o from Book o")
+        return em.createQuery("select o from Book o order by o.title")
                 .getResultList();
     }
 
@@ -26,34 +25,53 @@ public class ServicioBookImpl implements ServicioBook {
     @Override
     public void insert(Book obj) {
         var tx = em.getTransaction();
-
         try {
             tx.begin();
             em.persist(obj);
             tx.commit();
         }
         catch(Exception ex) {
-            tx.rollback();
+            tx.rollback();;
         }
     }
 
     @Override
     public void update(Book obj) {
+        var tx = em.getTransaction();
+        try {
+            tx.begin();
 
+            em.merge(obj);
+
+//            var o2 = em.find(Book.class, obj.getId());
+//            o2.setIsbn( );
+//            o2.setAuthor();
+//            o2.setTitle();
+//            o2.setPrice();
+
+            tx.commit();
+        }
+        catch(Exception ex) {
+            tx.rollback();;
+        }
     }
 
     @Override
     public void remove(Integer id) {
         var tx = em.getTransaction();
-
         try {
             tx.begin();
+
+            //Book obj = new Book();
+            //obj.setId(id);
+
             var obj = em.getReference(Book.class, id);
+
             em.remove(obj);
             tx.commit();
         }
         catch(Exception ex) {
-            tx.rollback();
+            tx.rollback();;
         }
     }
 }
