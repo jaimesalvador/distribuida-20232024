@@ -1,6 +1,5 @@
 package com.distribuida;
 
-import com.distribuida.db.Book;
 import com.distribuida.rest.BookRest;
 import com.distribuida.servicios.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +10,6 @@ import static spark.Spark.*;
 
 public class Principal {
     static SeContainer container;
-
 
     public static void main(String[] args) {
 
@@ -33,6 +31,5 @@ public class Principal {
         post("/books", bookRest::insert, mapper::writeValueAsString);
         put("/books/:id", bookRest::update, mapper::writeValueAsString);
         delete("/boloks/:id", bookRest::remove, mapper::writeValueAsString);
-
     }
 }
