@@ -9,6 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app-authors" />
             <option value="$PROJECT_DIR$/app-books" />
             <option value="$PROJECT_DIR$/cdi-jpa" />
             <option value="$PROJECT_DIR$/cdi-jpa-rest" />

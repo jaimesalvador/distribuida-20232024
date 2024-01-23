@@ -1,6 +1,8 @@
 package com.distribuida.app.books.rest;
 
+import com.distribuida.app.books.clients.AuthorRestClient;
 import com.distribuida.app.books.db.Book;
+import com.distribuida.app.books.dtos.BookDto;
 import com.distribuida.app.books.repo.BookRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -9,8 +11,10 @@ import jakarta.transaction.UserTransaction;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/books")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,9 +25,26 @@ public class BookRest {
     @Inject
     BookRepository repo;
 
+    @Inject
+    @RestClient
+    AuthorRestClient authorClient;
+
     @GET
-    public List<Book> findAll() {
-        return repo.listAll();
+    public List<BookDto> findAll() {
+       return repo.streamAll()
+               .map(book->{
+                   var author = authorClient.findById(book.getAuthorId());
+
+                   var dto = BookDto.from(book);
+
+                   String aname = String.format("%s %s",
+                           author.getLastName(), author.getFirstName());
+
+                   dto.setAuthorName( aname );
+
+                   return dto;
+               })
+               .collect(Collectors.toList());
     }
 
     @GET
@@ -49,6 +70,7 @@ public class BookRest {
 
     @PUT
     @Path("/{id}")
+
     public Response update(@PathParam("id")Integer id, Book obj) {
 
         Book b = repo.findById(id);
@@ -56,7 +78,7 @@ public class BookRest {
         b.setIsbn(obj.getIsbn());
         b.setTitle(obj.getTitle());
         b.setPrice(obj.getPrice());
-        b.setAuthor(obj.getAuthor());
+        b.setAuthorId(obj.getAuthorId());
 
         return Response.ok()
                 .build();

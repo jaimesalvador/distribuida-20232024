@@ -26,10 +26,6 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson") //JAX-RS-Json: Jackson
     implementation("io.quarkus:quarkus-hibernate-orm-panache") //JPA: Hibernate
     implementation("io.quarkus:quarkus-jdbc-postgresql") //Driver JDBC: PostgreSQL
-
-    //--rest client
-    implementation("io.quarkus:quarkus-rest-client-reactive")
-    implementation("io.quarkus:quarkus-rest-client-reactive-jackson")
 }
 
 tasks.test {
