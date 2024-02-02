@@ -1,0 +1,37 @@
+#docker-compose up -d
+version: '3'
+services:
+  proxy:
+    image: traefik
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "8080:8080"
+      - "8081:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  app-authors-service:
+    image: jaimesalvador/app-authors
+    deploy:
+      replicas: 3
+    expose:
+      - 8080
+    labels:
+      - "traefik.http.routers.authors.rule=PathPrefix(`/app-authors`)"
+      - "traefik.http.middlewares.authors.stripprefix.prefixes=/app-authors"
+      - "traefik.http.routers.authors.middlewares=authors"
+    #ports:
+    #  - "8080:8080" #HOST:CONTENEDOR
+  app-books-service:
+    image: jaimesalvador/app-books
+    environment:
+      APP_AUTHORS_URL: http://proxy/app-authors
+    deploy:
+      replicas: 2
+    expose:
+      - 8080
+    labels:
+      - "traefik.http.routers.books.rule=PathPrefix(`/app-books`)"
+      - "traefik.http.middlewares.books.stripprefix.prefixes=/app-books"
+      - "traefik.http.routers.books.middlewares=books"
+    #ports:
+    #  - "9090:8080" #HOST:CONTENEDOR
