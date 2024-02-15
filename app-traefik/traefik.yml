@@ -1,0 +1,13 @@
+#set TRAEFIK_API_INSECURE=True
+#  traefik
+#
+# CONSOLA:
+#   localhost:8080
+
+api:
+  insecure: true
+  dashboard: true
+providers:
+  file:
+    filename: app01.yml
+    watch: true

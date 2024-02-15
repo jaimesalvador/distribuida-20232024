@@ -1,0 +1,25 @@
+http:
+  routers:
+    router-app-authors:
+      entryPoints:
+        - http
+      service: service-app-authors
+      rule: Host(`authors.distribuida.com`)
+    router-app-books:
+      entryPoints:
+        - http
+      service: service-app-books
+      rule: Host(`books.distribuida.com`)
+  services:
+    service-app-authors:
+      loadBalancer:
+        servers:
+          - url: 'http://127.0.0.1:9090'
+          - url: 'http://127.0.0.1:9091'
+          - url: 'http://127.0.0.1:9092'
+    service-app-books:
+      loadBalancer:
+        servers:
+          - url: 'http://127.0.0.1:7070'
+          - url: 'http://127.0.0.1:7071'
+
