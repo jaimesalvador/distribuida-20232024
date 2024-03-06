@@ -22,8 +22,6 @@ public class AuthorRest {
     //books GET
     @GET
     public List<Author> findAll() {
-        System.out.println("**************************");
-
         return rep.findAll();
     }
 
